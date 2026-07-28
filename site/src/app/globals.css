@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+/* ── Design tokens — LIGHT ────────────────────────────────────────────────────
+   Brand cyan #34C8E8 measures 1.99:1 on white, so it can never carry text.
+   It is a FILL/GRAPHIC colour only. Anything textual uses --accent-ink
+   (#17708C, 5.63:1). Keep that split or the site fails WCAG AA.
+   ────────────────────────────────────────────────────────────────────────── */
+:root {
+  --bg: #ffffff;
+  --surface: #f2f6f9;
+  --surface-2: #e8eff4;
+  --accent: #34c8e8; /* fills / graphics only — 1.99:1 on white */
+  --accent-ink: #17708c; /* text + small UI — 5.63:1 */
+  --steel: #1b4b6b; /* 9.27:1 */
+  --text: #0f1e2b; /* 16.9:1 */
+  --text-muted: #5a6b7c; /* 5.48:1 */
+  --hairline: rgba(15, 30, 43, 0.12);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 180ms;
+  --dur-enter: 600ms;
+
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+  --section-y: clamp(6rem, 12vh, 11rem);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-steel: var(--steel);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+* {
+  min-width: 0;
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+html.lenis-smooth {
+  scroll-behavior: auto;
+}
+html.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Type ─────────────────────────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.h-hero {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 6.4vw, 5.75rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.h-section {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+}
+
+.h-service {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 2.8vw, 2.75rem);
+  line-height: 1.1;
+  font-weight: 500;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+}
+
+.measure {
+  max-width: 68ch;
+}
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+.container-dp {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section-y {
+  padding-block: var(--section-y);
+}
+
+/* ── Reveal ───────────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .cine-layer {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .scroll-prompt {
+    display: none;
+  }
+}
+
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Decorative ───────────────────────────────────────────────────────────── */
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-ink) 18%,
+    var(--accent-ink) 82%,
+    transparent
+  );
+  opacity: 0.35;
+}
+
+.blueprint {
+  background-image:
+    linear-gradient(rgba(15, 30, 43, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 30, 43, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Soft sky wash so a service scene never sits on bare white */
+.scene-wash {
+  background:
+    linear-gradient(180deg, rgba(52, 200, 232, 0.07), transparent 42%),
+    linear-gradient(0deg, rgba(52, 200, 232, 0.05), transparent 34%);
+}
+
+.cine-layer {
+  will-change: transform, opacity;
+}
+
+/* ── Marquee / drift ──────────────────────────────────────────────────────── */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+/* right-to-left */
+@keyframes driftRTL {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: driftRTL 50s linear infinite;
+}
+
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+.cloud-track {
+  display: flex;
+  width: max-content;
+  animation: driftRTL 80s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .cloud-track {
+    animation: none;
+  }
+  .marquee-track {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* ── Stroke-draw icons ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .icon-draw path,
+  .icon-draw circle,
+  .icon-draw rect,
+  .icon-draw line,
+  .icon-draw polyline {
+    stroke-dashoffset: 0 !important;
+  }
+}
