@@ -5,7 +5,6 @@
       "name": "digitalpoint-site",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "cwd": "site",
       "port": 3000
     }
   ]

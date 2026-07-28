@@ -9,7 +9,7 @@ import os, random
 from PIL import Image, ImageFilter, ImageChops, ImageDraw, ImageEnhance
 
 SRC = "/Users/nuru/Projects/digitalpointrealty/images"
-OUT = "/Users/nuru/Projects/digitalpointrealty/site/public/assets"
+OUT = "/Users/nuru/Projects/digitalpointrealty/public/assets"
 os.makedirs(OUT, exist_ok=True)
 random.seed(7)
 
